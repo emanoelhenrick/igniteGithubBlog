@@ -1,4 +1,4 @@
-import { PostContainer } from "../../styles";
+import { PostContainer } from "./styles";
 import { useNavigate } from 'react-router-dom'
 
 interface PostProps {
