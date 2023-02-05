@@ -15,4 +15,5 @@ export const GlobalStyle = createGlobalStyle`
     font-family: 'Nunito', sans-serif;
     font-size: 1rem;
   }
+
 `

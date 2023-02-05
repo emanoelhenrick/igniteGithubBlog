@@ -3,7 +3,7 @@ import { NavLink, useParams } from 'react-router-dom'
 import {CaretLeft, LinkSimple, CalendarBlank, GithubLogo, ChatCircle} from 'phosphor-react'
 import { api } from "../../lib/axios";
 import { useContext, useEffect, useState } from "react";
-import { dateFormatter } from "../../utils/formatter";
+import style from './markdown-styles.module.css'
 import ReactMarkdown from 'react-markdown'
 import gfm from "remark-gfm";
 import { PostsContext } from "../../context/postsContext";
@@ -89,7 +89,10 @@ export function PostViewer() {
         </header>
 
       <PostContentView>
-        <ReactMarkdown remarkPlugins={[gfm]}>
+        <ReactMarkdown
+          remarkPlugins={[gfm]}
+          className={style.markdown}
+        >
           {post.body}
         </ReactMarkdown>
       </PostContentView>
