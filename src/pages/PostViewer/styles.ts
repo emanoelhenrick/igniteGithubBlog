@@ -48,7 +48,7 @@ export const ViewPostContainer = styled.div`
     }
 
     div:last-child {
-      width: 60%;
+      width: 65%;
       display: flex;
       justify-content: space-between;
       align-items: center;

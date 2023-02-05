@@ -1,6 +1,8 @@
 import { PostContainer } from "./styles";
 import { useNavigate } from 'react-router-dom'
 import { dateFormatter } from "../../../../utils/formatter";
+import { formatDistanceToNow } from "date-fns";
+import ptBR from "date-fns/locale/pt-BR";
 
 interface PostProps {
   postContent: {
@@ -15,7 +17,10 @@ export function Post({ postContent }: PostProps) {
 
   const { title, body, number, created_at } = postContent
 
-  const formatedDate = dateFormatter.format(new Date(created_at))
+  const formatedDate = formatDistanceToNow(new Date(created_at), {
+    locale: ptBR,
+    addSuffix: true
+  })
 
   const navigate = useNavigate()
 

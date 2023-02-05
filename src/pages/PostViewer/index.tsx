@@ -7,6 +7,8 @@ import { dateFormatter } from "../../utils/formatter";
 import ReactMarkdown from 'react-markdown'
 import gfm from "remark-gfm";
 import { PostsContext } from "../../context/postsContext";
+import { formatDistanceToNow } from "date-fns";
+import ptBR from "date-fns/locale/pt-BR";
 
 interface PostProps {
   title: string
@@ -56,6 +58,8 @@ export function PostViewer() {
   }, [])
 
   
+
+  
   
   {if(post.body){
     return (
@@ -79,7 +83,7 @@ export function PostViewer() {
           <h1>{post.title}</h1>
           <div>
             <span><GithubLogo size={18} weight="fill" /><a href="#">{post.user.login}</a></span>
-            <span><CalendarBlank size={18} weight="fill" />{dateFormatter.format(new Date(post.created_at))}</span>
+            <span><CalendarBlank size={18} weight="fill" />{formatDistanceToNow(new Date(post.created_at), {locale: ptBR, addSuffix: true})}</span>
             <span><ChatCircle size={18} weight="fill" />{post.comments + ' comentários'}</span>
           </div>
         </header>
