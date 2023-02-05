@@ -1,32 +1,35 @@
 import { PostContainer } from "./styles";
 import { useNavigate } from 'react-router-dom'
+import { dateFormatter } from "../../../../utils/formatter";
 
 interface PostProps {
   postContent: {
     title: string,
-    content: string,
-    date: string,
-    postId: string
+    body: string,
+    number: string,
+    created_at: string
   }
 }
 
 export function Post({ postContent }: PostProps) {
 
-  const { title, content, date, postId } = postContent
+  const { title, body, number, created_at } = postContent
+
+  const formatedDate = dateFormatter.format(new Date(created_at))
 
   const navigate = useNavigate()
 
   function handleGoToPost() {
-    navigate(`/${postId}`)
+    navigate(`/${number}`)
   }
 
   return (
     <PostContainer
       onClick={handleGoToPost}
     >
-      <span>{date}</span>
+      <span>{formatedDate}</span>
       <h1>{title}</h1>
-      <p>{content}</p>
+      <p>{body}</p>
     </PostContainer>
   )
 }

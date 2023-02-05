@@ -128,3 +128,18 @@ export const PostsContainer = styled.div`
   grid-template-columns: 1fr 1fr;
   gap: 32px;
 `
+
+export const LoadingContent = styled.div`
+  text-align: center;
+  color: white;
+  animation: load 600ms infinite alternate-reverse;
+
+  @keyframes load {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+`

@@ -16,6 +16,11 @@ export const ViewPostContainer = styled.div`
     margin-bottom: 40px;
     flex-direction: column;
 
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
     h1 {
       font-size: 1.5rem;
       color: #E7EDF4;

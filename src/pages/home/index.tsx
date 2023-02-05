@@ -1,73 +1,80 @@
 import { LinkSimple, GithubLogo, Buildings, Users } from "phosphor-react";
-import { dateFormatter } from "../../utils/formatter";
+import { useContext } from "react";
+import { PostsContext } from "../../context/postsContext";
 import { Post } from "./components/PostComponent";
-import { BioContainer, HomeContainer, InfoContainer, PostsContainer, SearchForm } from "./styles";
+import { BioContainer, HomeContainer, InfoContainer, LoadingContent, PostsContainer, SearchForm } from "./styles";
+import { useForm } from "react-hook-form";
+
+interface searchProps {
+  searchValue: string
+}
 
 export function Home() {
 
-  const postContent = [
-    {
-      title: 'Titulo da primeira postagem de teste',
-      content: 'Algumas consideracoes a fazer agora que o projeto ja esta encaminhado, falta pouco para terminar o front e comecar a fazer as requisicoes necessarias para o funcionamento da aplicacao requisicoes necessarias para o funcionamento da aplicacao requisicoes necessarias para o funcionamento da aplicacao',
-      date: dateFormatter.format(new Date()) ,
-      postId: 'wuio5'
-    },
-    {
-      title: 'Titulo da segunda postagem de teste',
-      content: 'Algumas consideracoes a fazer agora que o projeto ja esta encaminhado, falta pouco para terminar o front e comecar a fazer as requisicoes necessarias para o funcionamento da aplicacao requisicoes necessarias para o funcionamento da aplicacao requisicoes necessarias para o funcionamento da aplicacao',
-      date: dateFormatter.format(new Date()) ,
-      postId: 'wuio5as'
-    },
-    {
-      title: 'Titulo da Terceira postagem de teste',
-      content: 'Algumas consideracoes a fazer agora que o projeto ja esta encaminhado, falta pouco para terminar o front e comecar a fazer as requisicoes necessarias para o funcionamento da aplicacao requisicoes necessarias para o funcionamento da aplicacao requisicoes necessarias para o funcionamento da aplicacao',
-      date: dateFormatter.format(new Date()) ,
-      postId: 'wuisao5'
-    }
-  ]
+  const { register, handleSubmit } = useForm()
+
+  const { userData, issuesData, fetchSearch } = useContext<any>(PostsContext)
+
+  const postList = issuesData.items
+
+  function fetchWithSearch(data: searchProps) {
+    fetchSearch(data)
+  }
 
 
-  return (
-    <HomeContainer>
+  {if(postList){
+    return (
+      <HomeContainer>
       <header>
-        <img src="https://avatars.githubusercontent.com/u/110049976?v=4" alt="" />
+        <img src={userData.avatar_url} alt="" />
         <BioContainer>
-          <h1>Emanoel</h1>
-          <p>lorem ipsum</p>
-          <a href="#">
+          <h1>{userData.name}</h1>
+          <p>{userData.bio}</p>
+          <a href={userData.html_url}>
             <LinkSimple size={16} />
             GITHUB
           </a>
+          
           <InfoContainer>
-            <span><GithubLogo size={18} weight="fill" /> github</span>
-            <span><Buildings size={18} weight="fill" />empresa</span>
-            <span><Users size={18} weight="fill" />32 seguidores</span>
+            <span><GithubLogo size={18} weight="fill" />{userData.login}</span>
+            <span><Buildings size={18} weight="fill" />{userData.location}</span>
+            <span><Users size={18} weight="fill" />{userData.followers + ' seguidores'}</span>
           </InfoContainer>
         </BioContainer>
       </header>
 
-      <SearchForm>
+      <SearchForm onSubmit={handleSubmit(fetchWithSearch)}>
         <div>
           <span>Publicações</span>
-          <span>6 publicações</span>
+          <span>{issuesData.total_count + " publicações"}</span>
         </div>
 
-        <input type="text" placeholder="Buscar Conteúdo" />
+        <input
+          type="text"
+          placeholder="Buscar Conteúdo"
+          {...register('searchValue')}
+        />
       </SearchForm>
 
       <PostsContainer>
 
-        {postContent.map(post => {
+        {postList.map(post => {
           return (
             <Post
+              key={post.id}
               postContent={post}
             />
           )
         })}
         
       </PostsContainer>
-
     </HomeContainer>
+    )
+  } else {
+    return (
+      <LoadingContent>Loading...</LoadingContent>
+    )
 
-  )
+    }
+  }
 }
