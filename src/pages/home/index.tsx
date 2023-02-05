@@ -38,7 +38,7 @@ export function Home() {
         <BioContainer>
           <h1>{userData.name}</h1>
           <p>{userData.bio}</p>
-          <a href={userData.html_url}>
+          <a href={userData.html_url} target="_blank" rel="noreferrer noopener">
             <LinkSimple size={16} />
             GITHUB
           </a>

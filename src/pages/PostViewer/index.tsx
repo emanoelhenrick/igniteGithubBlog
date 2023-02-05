@@ -75,7 +75,7 @@ export function PostViewer() {
               Voltar
             </NavLink>
 
-            <a href={post.html_url}>
+            <a href={post.html_url} target="_blank" rel="noreferrer noopener">
             <LinkSimple size={16} />
               ver no github
             </a>
