@@ -1,5 +1,5 @@
 import { LinkSimple, GithubLogo, Buildings, Users } from "phosphor-react";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { PostsContext } from "../../context/postsContext";
 import { Post } from "./components/PostComponent";
 import { BioContainer, HomeContainer, InfoContainer, LoadingContent, PostsContainer, SearchForm } from "./styles";
@@ -9,13 +9,21 @@ interface searchProps {
   searchValue: string
 }
 
+interface PostProps {
+  title: string
+  body: string
+  number: string
+  created_at: string
+  id: string
+}
+
 export function Home() {
 
   const { register, handleSubmit } = useForm()
 
   const { userData, issuesData, fetchSearch } = useContext<any>(PostsContext)
 
-  const postList = issuesData.items
+  const postList = issuesData.items as PostProps[]
 
   function fetchWithSearch(data: searchProps) {
     fetchSearch(data)
@@ -43,7 +51,7 @@ export function Home() {
         </BioContainer>
       </header>
 
-      <SearchForm onSubmit={handleSubmit(fetchWithSearch)}>
+      <SearchForm onSubmit={handleSubmit(fetchWithSearch as any)}>
         <div>
           <span>Publicações</span>
           <span>{issuesData.total_count + " publicações"}</span>
@@ -68,7 +76,7 @@ export function Home() {
         })}
         
       </PostsContainer>
-    </HomeContainer>
+      </HomeContainer>
     )
   } else {
     return (

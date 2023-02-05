@@ -10,13 +10,21 @@ interface searchProps {
   searchValue: string
 }
 
+interface  ContextProps {
+  userData: {}
+  issuesData: {}
+  fetchSearch: (data: searchProps) => void
+  reloadDataFromCache: () => void
+}
 
-export const PostsContext = createContext({})
+
+export const PostsContext = createContext({} as ContextProps)
 
 export function PostsProvider({ children }: PostsProviderProps) {
 
   const [userData, setUserData] = useState('')
   const [issuesData, setIssuesData] = useState({})
+  const [issuesDataOrigin, setIssuesDataOrigin] = useState({})
 
   async function fetchUserData() {
     const response = await api.get('/users/emanoelhenrick')
@@ -25,8 +33,14 @@ export function PostsProvider({ children }: PostsProviderProps) {
 
   function fetchRepoIssues() {
     api.get('/search/issues?q=repo:emanoelhenrick/igniteGithubBlog')
-      .then((response) => setIssuesData(response.data))
-    
+      .then((response) => {
+        setIssuesDataOrigin(response.data)
+        setIssuesData(response.data)
+      })
+  }
+
+  function reloadDataFromCache() {
+    setIssuesData(issuesDataOrigin)
   }
 
   function fetchSearch(data: searchProps) {
@@ -44,7 +58,8 @@ export function PostsProvider({ children }: PostsProviderProps) {
       value={{
         userData,
         issuesData,
-        fetchSearch
+        fetchSearch,
+        reloadDataFromCache
       }}
     >
     {children}

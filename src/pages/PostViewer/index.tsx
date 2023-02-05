@@ -2,26 +2,60 @@ import { PostContentView, ViewPostContainer } from "./styles";
 import { NavLink, useParams } from 'react-router-dom'
 import {CaretLeft, LinkSimple, CalendarBlank, GithubLogo, ChatCircle} from 'phosphor-react'
 import { api } from "../../lib/axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { dateFormatter } from "../../utils/formatter";
 import ReactMarkdown from 'react-markdown'
 import gfm from "remark-gfm";
+import { PostsContext } from "../../context/postsContext";
+
+interface PostProps {
+  title: string
+  body: string
+  number: string
+  created_at: string
+  id: string
+  html_url: string
+  user: { login: string }
+  comments: string
+}
+
+interface searchProps {
+  searchValue: string
+}
+
+interface  ContextProps {
+  userData: object
+  issuesData: {
+    items: PostProps[]
+  }
+  fetchSearch: (data: searchProps) => void
+  reloadDataFromCache: () => void
+}
 
 export function PostViewer() {
-
-  const { postNumber } = useParams()
-
-  const [post, setPost] = useState<any>({})
-
-  useEffect(() => {
-    fetchPost()
-  }, [])
 
   function fetchPost() {
     api.get(`https://api.github.com/repos/emanoelhenrick/igniteGithubBlog/issues/${postNumber}`)
       .then((response) => setPost(response.data))
-    
   }
+
+  const { issuesData, reloadDataFromCache } = useContext<ContextProps>(PostsContext as any)
+  const { postNumber } = useParams()
+
+  const [post, setPost] = useState<PostProps>({} as PostProps)
+
+  
+
+  useEffect(() => {
+    if(issuesData.items){
+      const postFind = issuesData.items.find((post) => post.number == postNumber)
+      setPost(postFind as PostProps)
+    } else {
+      fetchPost()
+    }
+  }, [])
+
+  
   
   {if(post.body){
     return (
@@ -31,6 +65,7 @@ export function PostViewer() {
             <NavLink
               to="/"
               title="voltar"
+              onClick={reloadDataFromCache}
             >
               <CaretLeft size={16} weight="bold" />
               Voltar

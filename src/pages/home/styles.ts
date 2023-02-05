@@ -5,6 +5,7 @@ export const HomeContainer = styled.div`
   width: 100%;
   margin: auto;
   color: white;
+  margin-bottom: 150px;
 
   header {
     display: flex;
