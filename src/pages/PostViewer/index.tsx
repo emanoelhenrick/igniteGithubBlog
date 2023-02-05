@@ -3,7 +3,6 @@ import { NavLink, useParams } from 'react-router-dom'
 import {CaretLeft, LinkSimple, CalendarBlank, GithubLogo, ChatCircle} from 'phosphor-react'
 import { api } from "../../lib/axios";
 import { useContext, useEffect, useState } from "react";
-// import style from './markdown-styles.module.css'
 import '../../../node_modules/github-markdown-css/github-markdown-dark.css'
 import ReactMarkdown from 'react-markdown'
 import gfm from "remark-gfm";
