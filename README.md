@@ -33,4 +33,6 @@ Execute o preview
 
 ## Screenshots
 
+![App Screenshot](https://github.com/emanoelhenrick/igniteGithubBlog/blob/6544ccc1e11dc5cc796582ff6793cb69c00b5018/screenshots/gh1.PNG)
 
+![App Screenshot](https://github.com/emanoelhenrick/igniteGithubBlog/blob/6544ccc1e11dc5cc796582ff6793cb69c00b5018/screenshots/gh2.PNG)
